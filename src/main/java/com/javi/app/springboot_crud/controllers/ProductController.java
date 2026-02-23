@@ -46,15 +46,16 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product) {
-        product.setId(id);
-        return ResponseEntity.status(HttpStatus.OK).body(service.save(product));
+        Optional<Product> productOptional = service.update(id, product);
+        if (productOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(productOptional.orElseThrow());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        Product product = new Product();
-        product.setId(id);
-        Optional<Product> productDeleted = service.delete(product);
+        Optional<Product> productDeleted = service.delete(id);
         if (productDeleted.isPresent()) {
             return ResponseEntity.ok(productDeleted.orElseThrow());
         }
