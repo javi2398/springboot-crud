@@ -1,9 +1,12 @@
 package com.javi.app.springboot_crud.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 
 import com.javi.app.springboot_crud.entities.Role;
 
-public interface RolRepository extends CrudRepository<Role, Long>{
+public interface RoleRepository extends CrudRepository<Role, Long>{
 
+    Optional<Role> findByName(String name);
 }
